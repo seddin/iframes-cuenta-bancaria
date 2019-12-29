@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Nueva Cuenta</title>
+        <link rel="stylesheet" href="iframe.css">
+    </head>
+    <body>
+        <h2>Nueva Cuenta</h2>
+        <br>
+        <br>
+        <br>
+        <br>
+        <hr>
+        <br>
+        <input type="text" id="num_cuenta" placeholder="Numero de cuenta...">
+        <br>
+        <input type="number" id="saldo" placeholder="Saldo de cuenta...">
+        <br>
+        <button id="guardar">Guardar</button>
+
+        <script type="text/javascript">
+            document.querySelectorAll('#guardar')[0].addEventListener('click', () => {
+                let num_cuenta = document.querySelectorAll('#num_cuenta')[0].value;
+                let saldo = document.querySelectorAll('#saldo')[0].value;
+
+                if (num_cuenta.length > 0 && saldo.length > 0) {
+                    let datos = {
+                        tipo: 1,
+                        num_cuenta: num_cuenta,
+                        saldo: saldo
+                    }
+
+                    parent.postMessage(datos, "*");
+                } else {
+                    alert('Rellene todos los campos');
+                }
+            });
+        </script>
+    </body>
+</html>

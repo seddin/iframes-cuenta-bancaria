@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="iframe.css">
+</head>
+<body>
+    <h2>Registro</h2>
+    <div id="registros">
+
+    </div>
+    <script type="text/javascript">
+        window.addEventListener('message', function (e) {
+            if (e.data.tipo == 1) {
+                document.querySelectorAll('#registros')[0].innerHTML += `
+                    <p>Se ha creado una nueva cuenta con el numero <b>${e.data.num_cuenta}</b>
+                    y <b>${e.data.saldo} €</b> de saldo.</p>
+                `;
+            }
+
+            if (e.data.tipo == 2) {
+                document.querySelectorAll('#registros')[0].innerHTML += `
+                    <hr>
+                    <p>
+                        Operacion <b>${e.data.operacion ? 'Ingreso': 'Retirada'}</b>,
+                        Cantidad <b>${e.data.cantidad} €</b>, Fecha <b>${e.data.fecha}</b>,
+                        Navegador <b>${e.data.navegador}</b>, Idioma <b>${e.data.idioma}</b>
+                    </p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

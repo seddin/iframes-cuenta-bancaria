@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos Cuenta</title>
+    <link rel="stylesheet" href="iframe.css">
+</head>
+<body>
+    <h2>Datos cuenta</h2>
+    <br>
+    <p>Numero de cuenta: <span id="num_cuenta"></span></p>
+    <p>Saldo en cuenta:  <span id="saldo"></span>€</p>
+
+    <br>
+    <hr>
+    <br>
+
+    <input type="number" id="cantidad" placeholder="Cantidad">
+    <br>
+
+    <button onclick="modificarSaldo(1)">Insertar</button>
+    <button onclick="modificarSaldo(0)">Retirar</button>
+
+    <script type="text/javascript">
+        window.addEventListener('message', function (e) {
+            if (e.data.tipo == 1) {
+                document.querySelectorAll('#num_cuenta')[0].innerText = e.data.num_cuenta;
+                document.querySelectorAll('#saldo')[0].innerText = e.data.saldo;
+            }
+        });
+
+        function modificarSaldo (tipo) {
+            let cuenta = document.querySelectorAll('#num_cuenta')[0].innerText;
+            let saldo = document.querySelectorAll('#saldo')[0].innerText;
+            let cantidad = document.querySelectorAll('#cantidad')[0].value;
+
+            if (cuenta.length == 0 || saldo.length == 0) {
+                alert("Datos de la cuenta erroneos!");
+                return;
+            }
+
+            if (parseInt(cantidad) > parseInt(saldo) && tipo == 0) {
+                alert("No puedes retirar mas saldo del que tienes!");
+                return;
+            }
+
+            let datos = {
+                tipo: 2,
+                operacion: tipo,
+                cantidad: cantidad,
+                fecha:  new Date(),
+                navegador: navigator.appName,
+                idioma: navigator.language
+            }
+
+            if (cantidad > 0) {
+                switch (tipo) {
+                    case 0:
+                        document.querySelectorAll('#saldo')[0].innerText = parseInt(saldo) - parseInt(cantidad);
+                        break;
+                    case 1:
+                        document.querySelectorAll('#saldo')[0].innerText = parseInt(saldo) + parseInt(cantidad);
+                        break;
+                }
+
+                parent.postMessage(datos, "*");
+            } else {
+                alert("Introduzca una cantidad!");
+            }
+        }
+    </script>
+</body>
+</html>

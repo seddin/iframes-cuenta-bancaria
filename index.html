@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Banco</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <iframe src="nueva_cuenta.html" id="nueva_cuenta"></iframe>
+        <iframe src="datos_cuenta.html" id="datos_cuenta"></iframe>
+        <iframe src="registro.html" id="registro"></iframe>
+
+        <script type="text/javascript">
+            window.addEventListener('message', function (e) {
+                if (e.data.tipo == 1) {
+                    let datos = e.data;
+                    let datos_cuenta = document.querySelectorAll('#datos_cuenta')[0].contentWindow;
+                    datos_cuenta.postMessage(datos, "*");
+
+                    let registro = document.querySelectorAll('#registro')[0].contentWindow;
+                    registro.postMessage(datos, "*");
+                }
+
+                if (e.data.tipo == 2) {
+                    let registro = document.querySelectorAll('#registro')[0].contentWindow;
+                    registro.postMessage(e.data, "*");
+                }
+            });
+        </script>
+    </body>
+</html>
